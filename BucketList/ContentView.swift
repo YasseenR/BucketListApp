@@ -5,41 +5,20 @@
 //  Created by Yasseen Rouni on 8/19/24.
 //
 
+import MapKit
 import SwiftUI
 
-struct LoadingView: View {
-    var body: some View {
-        Text("Loading...")
-    }
-}
-
-struct SuccessView: View {
-    var body: some View {
-        Text("Success!")
-    }
-}
-
-struct FailedView: View {
-    var body: some View {
-        Text("Failed.")
-    }
-}
 
 struct ContentView: View {
-    enum LoadingState {
-        case loading, success, failed
-    }
-    
-    @State private var loadingState = LoadingState.loading
+    @State private var position = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 39.952583, longitude: -75.16522), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)))
     
     var body: some View {
-        switch loadingState {
-        case .loading:
-            LoadingView()
-        case .success:
-            SuccessView()
-        case .failed:
-            FailedView()
+        VStack {
+            Map(position: $position)
+                .onMapCameraChange { context in
+                    print(context.region)
+                }
+    
         }
     }
     
